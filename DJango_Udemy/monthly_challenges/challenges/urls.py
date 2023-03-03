@@ -3,8 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path("january",views.viewFuncJan),
-    path("february",views.viewFuncFeb),
-    path("march",views.viewFuncMar),
-    path("<keyword>",views.genericResponse)
+    path("<int:keyword>",views.genericReponseInt),
+    path("<str:keyword>",views.genericResponse)
 ]
