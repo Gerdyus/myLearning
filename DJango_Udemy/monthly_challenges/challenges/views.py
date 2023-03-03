@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseNotFound
 # Create your views here.
 
 def viewFuncJan(request):
@@ -14,21 +14,12 @@ def viewFuncMar(request):
     return HttpResponse("It works! - Mar")
 
 
-def viewFuncApr(request):
-    return HttpResponse("It works! - Apr")
-
-
-def viewFuncMay(request):
-    return HttpResponse("It works! - May")
-
-
-def viewFuncJun(request):
-    return HttpResponse("It works! - Jun")
-
-
-def viewFuncJul(request):
-    return HttpResponse("It works! - Jul")
-
-
-def viewFuncAug(request):
-    return HttpResponse("It works! - Aug")
+def genericResponse(request,keyword):
+    returnText = "" + keyword +": "
+    if(keyword == "january"): # Will never get here because january exists specifically in a previous path
+        returnText = returnText + " sent from genericResponse."
+    if(keyword == "october"):
+        returnText = returnText + " sent from genericResponse."
+    else:
+        return HttpResponseNotFound("Unknown keyword.")
+    return HttpResponse(returnText)
