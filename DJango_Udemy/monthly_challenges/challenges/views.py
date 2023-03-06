@@ -1,39 +1,47 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
+from django.template.loader import render_to_string
 # Create your views here.
 
 month_dictionary = {
-    "january": "Jan",
-    "february": "Feb",
-    "march": "Mar",
-    "april": "Apr",
-    "may": "May",
-    "june": "Jun",
-    "july": "Jul",
-    "august": "Aug",
-    "september": "Sep",
-    "october": "Oct",
-    "november": "Nov",
-    "december": "Dec",
+    "january": "Jan Challenge",
+    "february": "Feb  Challenge",
+    "march": "Mar  Challenge",
+    "april": "Apr  Challenge",
+    "may": "May  Challenge",
+    "june": "Jun  Challenge",
+    "july": "Jul  Challenge",
+    "august": "Aug  Challenge",
+    "september": "Sep  Challenge",
+    "october": "Oct  Challenge",
+    "november": "Nov  Challenge",
+    "december": "Dec Challenge",
 }
+
 
 def index(request):
     http_response = ""
     dict_keys = list(month_dictionary.keys())
     for month in dict_keys:
-        root_url = reverse("month-challenge",args = [month])
-        http_response+= f"<li><a href = \" {root_url} \"> {month.capitalize()} </a></li>"
-          
+        root_url = reverse("month-challenge", args=[month])
+        http_response += f"<li><a href = \" {root_url} \"> {month.capitalize()} </a></li>"
+
     return HttpResponse(http_response)
+
 
 def genericResponse(request, keyword):
     try:
         returnText = month_dictionary[keyword]
-        return_html = f"<h1>{returnText}</h1>"
+        return render(request, "challenges/challenges.html", {
+            "text":keyword,
+            "challenge": month_dictionary[keyword]
+        })
+        # reverseCode = reverse("month-challenge", args = [keyword])
+        return_html = render_to_string("challenges/challenges.html")
+        return HttpResponse(return_html)
     except:
-        return HttpResponseNotFound("Unknown parameter keyword.")
-    return HttpResponse(return_html)
+        return HttpResponseNotFound("Error caught.")
 
 
 def genericReponseInt(request, keyword):
