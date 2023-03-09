@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import Http404, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
 from django.template.loader import render_to_string
 # Create your views here.
@@ -16,18 +16,21 @@ month_dictionary = {
     "september": "Sep  Challenge",
     "october": "Oct  Challenge",
     "november": "Nov  Challenge",
-    "december": "Dec Challenge",
+    "december": None,
 }
 
 
 def index(request):
     http_response = ""
     dict_keys = list(month_dictionary.keys())
+    dict_vals = list(month_dictionary.values())
     for month in dict_keys:
         root_url = reverse("month-challenge", args=[month])
         http_response += f"<li><a href = \" {root_url} \"> {month.capitalize()} </a></li>"
 
-    return HttpResponse(http_response)
+    return render(request, "challenges/index.html",{
+        "listMonths":dict_keys,
+    })
 
 
 def genericResponse(request, keyword):
@@ -41,7 +44,9 @@ def genericResponse(request, keyword):
         return_html = render_to_string("challenges/challenges.html")
         return HttpResponse(return_html)
     except:
-        return HttpResponseNotFound("Error caught.")
+        raise Http404()#Looks for a 404.html file in the root project templates
+        tempdata = render_to_string("404.html")
+        return HttpResponseNotFound(tempdata)
 
 
 def genericReponseInt(request, keyword):
