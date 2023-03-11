@@ -2,7 +2,26 @@
 html{
     font-family: 'Tilt Neon', cursive;
 }
-
+h1{
+    align-items: center;
+    text-align: center;
+    color: white;
+}
 body{
     margin:0;
+    background-color: #1a1a1a;
+}
+h2{
+    
+    align-items: center;
+    text-align: center;
+    color: white;
+
+}
+p{
+    
+    align-items: center;
+    text-align: center;
+    color: white;
+
 }
